@@ -1,0 +1,32 @@
+function init(self)
+	input.acquire()
+	self.retry = gui.get_node("retry")
+end
+
+function final(self)
+	input.release()
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("left_hand") and action.pressed then
+		msg.post("main:/router", "back")
+		msg.post("main:/router", "back")
+		msg.post("main:/router", "change_scene", {scene="game"})
+	end	
+	
+end
+
+function on_reload(self)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end

@@ -1,0 +1,14 @@
+local world = require ("pseudo.modules.world.world")
+
+
+function on_message(self, message_id, message, sender)
+	if(message_id==HASHES.CONTROLLER_SPAWN_GEOMETRY) then
+		local wall_pos= vmath.vector3(0)
+		local scale = vmath.vector3(0)
+		for i,object in ipairs(world.map.data.geometry) do
+			wall_pos.x, wall_pos.y = object.x + 0.5 , object.y + 0.5
+    	    scale.x , scale.y = object.width, object.height
+    	    local wall=factory.create("#factory", wall_pos,nil,{},scale)
+    	 end
+	end	
+end

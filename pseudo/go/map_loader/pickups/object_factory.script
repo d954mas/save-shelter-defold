@@ -1,0 +1,21 @@
+local hashes = require("lib.hashes")
+
+local world = require ("pseudo.modules.world.world")
+local objects = require("pseudo.modules.models.objects")
+
+function on_message(self, message_id, message, sender)
+	if(message_id==hashes.CONTROLLER_SPAWN_OBJECTS) then
+		local pos = vmath.vector3(0)
+		for i,obj in ipairs(world.map.data.objects) do
+			local data = obj.data
+			assert(data,"unknown object " .. data.texture)
+			pos.x = obj.x - 0.5
+   	 	pos.y = obj.y  - 0.5
+            pos.z = data.position_z
+			local url = msg.url(factory.create("#factory"..data.collision,pos,nil,{},data.scale))
+			url.fragment = "sprite"
+			msg.post(url,"play_animation",{id=data.texture})
+		end	
+	end
+	
+end

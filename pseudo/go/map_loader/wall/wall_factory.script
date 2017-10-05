@@ -1,0 +1,88 @@
+local hashes = require("lib.hashes")
+
+local rays = require("pseudo.modules.rays")
+local world = require ("pseudo.modules.world.world")
+local fix_world_quaterion = vmath.quat_rotation_x(1.57)
+
+local wall_pos = vmath.vector3(0)
+
+local function update_sprite(url,texture,visibility,light)
+	if(visibility) then
+		go.set(url,"scale",vmath.vector3(0.015625))
+		msg.post(url,"play_animation",{id = texture})
+		if(light)then
+			sprite.set_constant(url,"light_color",light.light)
+		end
+	else
+		msg.post(url,"disable")
+	end	
+end	
+
+local function spawn_wall(wall)
+	wall_pos.x = wall.x - 0.5
+    wall_pos.y = wall.y - 0.5
+	local id=factory.create("#factory".. wall.light.id, wall_pos,nil,{},1)
+	local url = msg.url(id)
+	url.fragment = "sprite1"
+	update_sprite(url,wall.left,wall.left,wall.light)
+	url.fragment = "sprite2"
+	update_sprite(url,wall.top,wall.top,wall.light)
+	url.fragment = "sprite3"
+	update_sprite(url,wall.right,wall.right,wall.light)
+	url.fragment = "sprite4"
+	update_sprite(url,wall.bottom,wall.bottom,wall.light)
+	return msg.url(id)
+end	
+
+
+local function need_spawn(wall)
+	return wall.top or wall.bottom or wall.right or wall.left
+end
+
+local function get_wall(map,x,y)
+	if (x<=map.data.width and x>=1) and (y<=map.data.height and y>=1) then	
+		return map.data.walls[map.data.height - y + 1][x]	
+	end
+	return nil
+end	
+
+local function new_walls(map)
+	local new_walls = {}
+	for y=1,map.data.height do
+			for x=1,map.data.width do
+				local new_wall = {}
+				local top = get_wall(map,x,y+1)
+				new_wall.light = map.data.light_map[map.data.height - y + 1][x]
+				if(new_wall.light==nil)then
+				  new_wall.light = {
+   				 light = vmath.vector4(0.25098040699959, 0.25098040699959, 0.25098040699959, 1),
+    				id = 39,
+ 				 }	
+				end	
+				
+				new_wall.top = (top~=nil and top.visible_bottom) and top.texture or nil
+				local bottom = get_wall(map,x,y-1)
+				new_wall.bottom = (bottom~=nil and bottom.visible_top) and bottom.texture or nil
+				local left = get_wall(map,x-1,y)
+				new_wall.left = (left~=nil and left.visible_right) and left.texture or nil
+				local right = get_wall(map,x+1,y)
+				new_wall.right = (right~=nil and right.visible_left) and right.texture or nil
+				new_wall.x = x
+				new_wall.y = y
+				table.insert(new_walls,new_wall)
+			end
+	end
+	return new_walls	
+end	
+
+function on_message(self, message_id, message, sender)
+	if(message_id==hashes.CONTROLLER_SPAWN_WALLS) then
+		local map=world.map
+		local walls = new_walls(map)
+		for _,wall in ipairs(walls) do
+			if(need_spawn(wall)) then
+				spawn_wall(wall)
+			end	
+		end	
+	end	
+end

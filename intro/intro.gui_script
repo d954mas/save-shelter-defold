@@ -1,0 +1,54 @@
+local pages = {
+{text=
+"All that was built thousands of years died in a few hours.\n" ..
+ "Few lucky people managed to reach the shelters.Even less the\n"..
+" person managed to survive the first years.Hunger, disease, breach\n "..
+"of integrity were destroyed one shelter after another.\n"
+, image = "bomb"},
+
+{text=
+"We managed to survive.Our shelter was one of the best that was\n "..
+"built before the war.Closed cycle of air and waterhuge farms for\n"..
+" growing food.But in the generator there was no graphite rod so it\n "..
+"could not work at full power.We were threatened with death due to\n "..
+"lack of energy."
+, image = "bunker"},
+
+{text=
+"It was decided to send the expedition to the nearest shelter, for search\n"..
+"rod. Since it is not known what was waiting for us in the shelter, but the\n"..
+" only one I was the one who survived with the military training, so then they\n "..
+"sent me.I'm going to the unknown,but I must return, God help me."
+, image = "cave"}
+} 
+local current_page = 1
+
+local function show_page(self)
+	local page = pages[current_page]
+	gui.set_text(self.text, page.text)
+	gui.play_flipbook(self.image, page.image)
+end	
+
+function init(self)
+	self.text = gui.get_node("text")
+	self.image = gui.get_node("image")
+	input.acquire()
+	show_page(self)
+end
+
+function final(self)
+	input.release()
+end
+
+function on_input(self, action_id, action)
+	if(action.pressed and action_id == HASHES.INPUT_LEFT_HAND)then
+		current_page = current_page + 1
+		if(current_page <= #pages)then
+			show_page(self)	
+		else
+			msg.post("main:/router", "change_scene", {scene="game"})
+			gui.set_enabled(self.text,false)
+			gui.set_enabled(self.image,false)
+		end	
+	end	
+end

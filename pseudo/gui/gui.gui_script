@@ -1,0 +1,76 @@
+
+
+local world = require ("pseudo.modules.world.world")
+local player=world.player
+local minimap = require("pseudo.gui.minimap")
+
+local function update_health(self)
+	gui.set_text(self.health_text,player.health .. "/" .. player.max_health)
+end
+
+local function update_mana(self)
+	gui.set_text(self.mana_text,math.floor(player.mana) .. "/" .. player.max_mana)
+end
+
+local function update_ammo(self)
+	if(player.get_current_weapon().ammo_icon) then
+		gui.set_enabled(self.ammo,true)
+		gui.play_flipbook(self.ammo,player.get_current_weapon().ammo_icon)
+		gui.set_text(self.ammo_text,math.floor(player.get_current_weapon().ammo))
+	else
+		gui.set_enabled(self.ammo,false)
+	end	
+	
+end
+
+local function input_show_map(self, action_id, action)
+	if(action.pressed) then  minimap.show() end
+	if(action.released) then minimap.hide() end
+end
+
+
+local function  init_nodes(self)
+	self.health_text=gui.get_node("heart/text")
+	self.ammo_text=gui.get_node("ammo/text")
+	self.ammo=gui.get_node("ammo")
+end	
+
+function init(self)
+	init_nodes(self)
+	input.acquire()
+	minimap.init()
+	
+	
+	local events = player.controller.events
+	player.controller:registerObserver({events.HEALTH_CHANGED,events.MAX_HEALTH_CHANGED,
+		events.MANA_CHANGED,events.MAX_MANA_CHANGED,events.AMMO_CHANGED},msg.url())
+	
+	self.msg_receiver = MsgReceiver.new()
+	self.msg_receiver:add(events.HEALTH_CHANGED, update_health)
+	self.msg_receiver:add(events.MAX_HEALTH_CHANGED, update_health)
+	self.msg_receiver:add(events.AMMO_CHANGED, update_ammo)
+    self.msg_receiver:add(HASHES.CONTROLLER_MAP_CHANGED, function() minimap.change_map(world.map) end)
+	
+	self.input_receiver = InputReceiver.new()
+	self.input_receiver:add(HASHES.INPUT_SHOW_MAP,input_show_map)
+	update_health(self)
+	update_ammo(self)
+end
+
+function final(self)
+	input.release()
+end
+
+function update(self, dt)
+	minimap.update(world)
+end
+
+function on_message(self, message_id, message, sender)
+	self.msg_receiver:on_message(self, message_id, message, sender)
+end
+
+function on_input(self, action_id, action)
+	self.input_receiver:on_input(self, action_id, action)
+end
+
+

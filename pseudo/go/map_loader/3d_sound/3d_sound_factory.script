@@ -1,0 +1,56 @@
+local world = require ("pseudo.modules.world.world")
+local SOUNDS={}
+local sources={}
+
+
+
+function init(self)
+--	openal.listener.orientation_up_x = 0
+	--openal.listener.orientation_up_y = 0
+	--openal.listener.orientation_up_z = 1
+	--openal.set_distance_model("exponent")
+--	SOUNDS.campfire = resource.load("/assets/3d_sounds/campfire.wav")
+	--SOUNDS.drone = resource.load("/assets/3d_sounds/drone.wav")
+	
+end
+
+function final(self)
+	for i, source in ipairs(sources) do
+		openal.remove_source(source)
+	end	
+	--openal.remove_source(self.campfireSource)
+	--openal.remove_source(self.catSource)
+	--openal.remove_source(self.waterfallSource)
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+end
+
+
+function on_message(self, message_id, message, sender)
+	if(message_id==HASHES.CONTROLLER_SPAWN_3D_SOUNDS)then
+		local sounds=world.map.data.sounds_3d
+		for i,sound in ipairs(sounds) do
+			local sound_source = openal.new_source(SOUNDS[sound.sound])
+			sound_source.reference_distance=2
+			sound_source.rolloff_factor=4
+			sound_source.max_distance=7
+			sound_source.x, sound_source.y = sound.x +0.5  , sound.y +0.5
+			sound_source.is_looping = true
+			sound_source:play()
+			sources[i]=sound_source
+		end	
+	end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end

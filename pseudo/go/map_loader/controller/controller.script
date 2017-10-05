@@ -1,0 +1,23 @@
+local rays = require("pseudo.modules.rays")
+local world = require ("pseudo.modules.world.world")
+
+local function load_world()
+	world.load_map("")
+	world.player.pos.x = world.map.data.player.x + 0.5
+	world.player.pos.y = world.map.data.player.y + 0.5
+	msg.post("/player",HASHES.PLAYER_CHANGE_POSITION)
+	msg.post("/map_loader/geometry_factory#script",HASHES.CONTROLLER_SPAWN_GEOMETRY)
+	msg.post("/map_loader/wall_factory#chunk_factory",HASHES.CONTROLLER_SPAWN_WALLS)
+	msg.post("/map_loader/floor_factory",HASHES.CONTROLLER_SPAWN_FLOORS)
+	msg.post("/map_loader/ceil_factory",HASHES.CONTROLLER_SPAWN_CEILS)
+	msg.post("/map_loader/object_factory",HASHES.CONTROLLER_SPAWN_OBJECTS)
+	msg.post("/map_loader/pickup_factory",HASHES.CONTROLLER_SPAWN_PICKUPS)
+	msg.post("/map_loader/enemy_factory",HASHES.CONTROLLER_SPAWN_ENEMIES)
+	--msg.post("/map_loader/3d_sound_factory",hashes.CONTROLLER_SPAWN_3D_SOUNDS)
+	msg.post("/gui#gui",HASHES.CONTROLLER_MAP_CHANGED)
+	
+end	
+
+function init(self)
+	load_world()
+end

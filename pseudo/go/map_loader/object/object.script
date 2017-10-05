@@ -1,0 +1,7 @@
+local world = require ("pseudo.modules.world.world")
+local player = world.player
+
+function update(self, dt)
+	go.set(".","euler.z",player.angle * 57.2958 + 180)
+end
+

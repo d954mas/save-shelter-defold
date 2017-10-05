@@ -1,0 +1,111 @@
+local weapons = require("pseudo.modules.models.weapons")
+local input = require("lib.input")
+local world = require ("pseudo.modules.world.world")
+local hashes = require("lib.hashes")
+local player = world.player
+local sounds = require("pseudo.modules.models.sounds")
+local move=false
+local move_easing = vmath.vector( { 0,1,0})
+
+local STATES={idle=1,shooting=2,after_shot=3}
+
+local function update_weapon(self)
+	self.weapon=player.get_current_weapon()
+	msg.post("/hands#sprite",hashes.MSG_PLAY_ANIMATION,{id=self.weapon.idle})
+end	
+
+function init(self)
+	self.time = 0
+	self.shooting=false
+	self.state=STATES.idle
+	update_weapon(self)
+	local events = player.controller.events
+	player.controller:registerObserver({events.WEAPON_CHANGED},msg.url())
+end
+
+local function make_shot(self)
+	if(self.weapon.ammo>0)then
+		local start_pos = vmath.vector3(player.pos.x,player.pos.y,0)
+		local normal = vmath.normalize(vmath.vector3(-math.sin(player.angle),math.cos(player.angle),0))
+		local end_pos = start_pos + normal * 100
+		physics.ray_cast(start_pos,end_pos,{hashes.PHYSICS_GROUP_WALL,hashes.PHYSICS_GROUP_BLOCK_PROJECTIVES,
+			hashes.PHYSICS_GROUP_BLOCK_PROJECTIVES_PLAYER})
+		player.controller:make_shot()
+	end	
+	
+end
+
+local function update_state(self,dt)
+	if(self.state==STATES.idle and self.shooting)then
+		if(self.weapon.ammo>0)then 
+			self.state=STATES.shooting
+			msg.post("/hands#sprite",HASHES.MSG_PLAY_ANIMATION,{id=self.weapon.attack})
+			self.time=0
+			local sound=self.weapon.attack_sound
+			msg.post(sound.url,HASHES.MSG_PLAY_SOUND,sound.fields)
+		end
+	elseif(self.state==STATES.shooting)then
+		self.time=self.time + dt
+		if(self.time>self.weapon.proj_wait)then
+			self.time=0
+			self.state=STATES.after_shot
+			make_shot(self)
+		end	
+	end	
+end
+
+local function update_move(self,dt)
+	local now_move=false
+	if(vmath.length(player.velocity)>0) then
+		now_move=true		
+	end
+	if(move ~= now_move)then
+		move=now_move
+		if(move) then
+			go.animate("hands","position.y",go.PLAYBACK_LOOP_FORWARD,250,move_easing,1)
+		else
+			go.animate("hands","position.y",go.PLAYBACK_ONCE_FORWARD,316.203,go.EASING_LINEAR,0.5)
+		end	
+	end	
+end
+
+
+function update(self, dt)
+	update_state(self,dt)
+	update_move(self,dt)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hashes.MSG_PHYSICS_RAY_CAST then
+		if(message.group==hashes.PHYSICS_GROUP_BLOCK_PROJECTIVES) then
+			local distance=vmath.length(message.position-player.pos)
+			if(self.weapon.type == hash("shoot"))then
+				msg.post(message.id,"die")	
+			elseif(distance<0.4) then 
+				msg.post(message.id,"die")	
+			end	
+			
+		end
+	elseif(message_id==player.controller.events.WEAPON_CHANGED) then
+		update_weapon(self)
+	elseif message_id==hash("animation_done") and self.state==STATES.after_shot then
+		self.state=STATES.idle	
+	end	
+end
+
+function on_input(self, action_id, action)
+		if(world.map==nil) then return end
+	if(action_id==hashes.INPUT_LEFT_HAND) then
+		if(action.pressed)then self.shooting=true
+		elseif(action.released) then self.shooting=false end
+	elseif(action_id==hashes.INPUT_NEXT_ITEM) then
+		
+		if(self.state==STATES.idle)then
+			player.controller:change_weapon(1)
+		end	
+	elseif(action_id==hashes.INPUT_PREV_ITEM) then
+		if(self.state==STATES.idle)then
+			player.controller:change_weapon(-1)
+		end	
+	end	
+end

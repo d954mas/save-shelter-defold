@@ -1,0 +1,99 @@
+local hashes = require("lib.hashes")
+local constants = require("pseudo.modules.constants")
+local weapons = require("pseudo.modules.models.weapons")
+local input = require("lib.input")
+local world = require ("pseudo.modules.world.world")
+local player = world.player
+
+function init(self)
+	msg.post("#camera", hashes.MSG_ACQUIRE_CAMERA_FOCUS)
+	input.acquire()
+	self.correction = vmath.vector3()
+	world.player.controller:registerObserver({world.player.controller.events.CURRENT_ITEM_CHANGED},msg.url())
+	go.set_position(player.pos)
+	go.set_rotation(player.get_rotation_quaterion())
+end
+
+function final(self)
+	input.release()
+end	
+
+local function move(self,dt)
+	if(vmath.length(player.velocity)>0) then
+		local move_step = vmath.normalize(player.velocity) * player.speed * dt
+		player.pos = player.pos + vmath.rotate(vmath.quat_rotation_z(player.angle),move_step)
+		go.set_position(player.pos)
+	--	openal.listener.x, openal.listener.y = player.pos.x, player.pos.y
+	end
+end
+
+function update(self, dt)
+	self.correction=vmath.vector3(0)
+	move(self,dt)
+	world.player.controller:change_mana(player.mana_regen*dt)
+	if player.health == 0 then
+		msg.post("main:/router", "change_scene", {scene="game_over"})	
+		player.reset()
+	end	
+end
+
+local function handle_geometry(self,distance,normal)
+	if(vmath.length(normal * distance)<=0)then
+		return
+	end	
+	if distance > 0 then
+		local proj = vmath.project(self.correction, normal * distance)
+		if proj < 1 then
+			local comp = (distance - distance * proj) * normal
+			local comp_pos = go.get_position() + comp
+			go.set_position(comp_pos)
+			player.pos.x = comp_pos.x
+			player.pos.y = comp_pos.y
+			self.correction = self.correction + comp
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hashes.MSG_PHYSICS_CONTACT and message.group ~= hashes.PHYSICS_GROUP_PICKUPS then
+		handle_geometry(self,message.distance,message.normal)
+	elseif(message_id==hashes.PLAYER_CHANGE_POSITION)then
+		go.set_position(player.pos)
+	end	
+end
+
+
+local function rotate(dx)
+	local angle = dx/1590 * constants.PLAYER_FOV
+	if(sys.get_sys_info().system_name== "Windows") then
+		angle = -angle * 8
+	else
+		angle = -angle * 4
+	end
+	player.angle = player.angle + angle
+	go.set_rotation(player.get_rotation_quaterion())
+--	openal.listener.orientation_at_y = math.cos(player.angle)
+	--openal.listener.orientation_at_x = -math.sin(player.angle)
+end
+
+function on_input(self, action_id, action)
+	if(action.pressed) then
+		if(action_id==hashes.INPUT_UP) then player.velocity.y = 1
+		elseif(action_id==hashes.INPUT_DOWN) then player.velocity.y = -1
+		elseif(action_id==hashes.INPUT_LEFT) then player.velocity.x = -1
+		elseif(action_id==hashes.INPUT_RIGHT) then player.velocity.x = 1
+		end
+	elseif(action.released) then
+		if(action_id==hashes.INPUT_UP) then player.velocity .y= 0
+		elseif(action_id==hashes.INPUT_DOWN) then player.velocity.y = 0
+		elseif(action_id==hashes.INPUT_LEFT) then player.velocity.x = 0
+		elseif(action_id==hashes.INPUT_RIGHT) then player.velocity.x = 0
+		end
+	elseif(action_id==nil)then
+		local move=lock_mouse.update_cursor()
+		if(move)then
+			action.screen_dx=move[1]
+		end
+		rotate(action.screen_dx)
+	end
+end

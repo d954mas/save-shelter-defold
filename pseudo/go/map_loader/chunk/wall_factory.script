@@ -1,0 +1,55 @@
+local world = require ("pseudo.modules.world.world")
+local resource_path
+local textures
+
+function init(self)
+	local input = require("lib.input").acquire()	
+end
+
+local function enable_sprite(x,y,dx,dy,sprite,url)
+	local map=world.map_geometry
+	if(x+dx<=map.get_width() and x+dx>=1)
+		and (y+dy<=map.get_height() and y+dy>=1)
+		and not map.is_blocking(x+dx,y+dy) then
+		 go.set(url,"scale",vmath.vector3(1/64))
+	 	msg.post(url, "play_animation", {id =  sprite})
+	else
+		 msg.post(url,"disable")
+	end	
+		
+end	
+
+function on_message(self, message_id, message, sender)
+	local map=world.map_geometry
+	if(message_id==HASHES.CONTROLLER_SPAWN_WALLS) then
+		local delta_x=1
+	local delta_y=1
+	local wall_pos= vmath.vector3(0)
+	
+	factories = {"#factory1","#factory2","#factory3","#factory4"}
+	
+	for y=1,map.get_height() do
+		for x=1,map.get_width() do
+			if(map.is_blocking(x,y)) then 
+    	  	wall_pos.x = (x-1) * delta_x + 1
+    	  	wall_pos.y = (y-1) * delta_y + 1    
+			  local wall=factory.create("#factory1", wall_pos)
+			  local url = msg.url(wall)
+			  url.fragment = "sprite1"
+			  local sprite=hash("wall" .. map.get_cell(x,y).texture)
+			  enable_sprite(x,y,-1,0,sprite,url)
+			  
+			  -- go.set(url,"scale",vmath.vector3(1/64))
+			  url.fragment = "sprite2"
+			  enable_sprite(x,y,0,1,sprite,url)
+			  url.fragment = "sprite3"
+			  enable_sprite(x,y,1,0,sprite,url)
+			  url.fragment = "sprite4"
+			  enable_sprite(x,y,0,-1,sprite,url)
+			  -- msg.post(url, "play_animation", {id =  hash("wall" .. map.get_cell(x,y).texture)})
+             end
+      end
+  end
+	end	
+	
+end

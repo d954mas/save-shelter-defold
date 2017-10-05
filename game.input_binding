@@ -1,0 +1,40 @@
+key_trigger {
+  input: KEY_W
+  action: "up"
+}
+key_trigger {
+  input: KEY_S
+  action: "down"
+}
+key_trigger {
+  input: KEY_A
+  action: "left"
+}
+key_trigger {
+  input: KEY_D
+  action: "right"
+}
+key_trigger {
+  input: KEY_TAB
+  action: "show_map"
+}
+mouse_trigger {
+  input: MOUSE_BUTTON_1
+  action: "left_hand"
+}
+mouse_trigger {
+  input: MOUSE_WHEEL_UP
+  action: "next_item"
+}
+mouse_trigger {
+  input: MOUSE_WHEEL_DOWN
+  action: "prev_item"
+}
+mouse_trigger {
+  input: MOUSE_BUTTON_MIDDLE
+  action: "right_hand"
+}
+mouse_trigger {
+  input: MOUSE_BUTTON_RIGHT
+  action: "right_hand"
+}

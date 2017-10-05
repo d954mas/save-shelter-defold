@@ -1,0 +1,21 @@
+local hashes = require("lib.hashes")
+local world = require ("pseudo.modules.world.world")
+local pickups = require("pseudo.modules.models.pickups")
+
+
+function on_message(self, message_id, message, sender)
+	if(message_id==hashes.CONTROLLER_SPAWN_PICKUPS) then
+		local pos = vmath.vector3(0)
+		local properties = {}
+		for i,obj in ipairs(world.map.data.pickups) do
+			pos.x = obj.x - 0.5
+   	 	pos.y = obj.y - 0.5
+            pos.z = obj.data.position_z
+        	properties.id = obj.data.id
+			local url = msg.url(factory.create("#factory",pos,nil,properties,obj.data.scale))
+			url.fragment = "sprite"
+			msg.post(url,"play_animation",{id=obj.data.icon})
+		end	
+	end
+	
+end

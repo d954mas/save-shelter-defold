@@ -1,0 +1,57 @@
+local hashes = require("lib.hashes")
+local world = require ("pseudo.modules.world.world")
+local map = world.map_geometry
+local player = world.player
+local rays = require("pseudo.modules.rays")
+
+local function init_map(self)
+	local map_width = world.map_geometry.get_width()
+	local map_height = world.map_geometry.get_height()
+	self.buffer = buffer.create(map_width * map_height, { {name=hashes.RGB, type=buffer.VALUE_TYPE_UINT8, count=3} } )
+    self.stream = buffer.get_stream(self.buffer, hashes.RGB)
+		
+  for y=1,map_height do
+      for x=1,map_width do
+          local index = (y-1) * map_width * 3 + (x-1) * 3 + 1
+          local blocking = map.is_blocking(x,y)
+          
+		  if(not blocking) then 
+          	self.stream[index] = 0x00
+          	self.stream[index + 1] = 0x00
+          	self.stream[index + 2] = 0x00
+          else 
+        	  self.stream[index] = 0xff
+          	self.stream[index + 1] = 0xff
+          	self.stream[index + 2] = 0xff
+          end  
+      end
+  end
+  
+  local resource_path = go.get("#sprite", "texture0")
+  local header = { width=map_width, height=map_height, type=resource.TEXTURE_TYPE_2D, format=resource.TEXTURE_FORMAT_RGB, num_mip_maps=1 }
+ -- resource.set(resource_path, header , self.buffer)    
+  resource.set_texture(resource_path, header, self.buffer)
+	go.set("#sprite", "scale.x", 5)
+	go.set("#sprite", "scale.y", world.map_geometry.get_height()/world.map_geometry.get_width()*5)
+end
+
+function init(self)
+	init_map(self)	
+end	
+
+function update(self,dt)
+	if(self.buffer==nil) then return end
+	
+	--rays.cast_rays(go.get("/map/map","position"),go.get("/map/hero","position"))
+	local scale = 32/map.get_width()
+	local delta_x = (world.player.pos.x - map.get_width()/2)*scale *5
+	local delta_y = (world.player.pos.y - map.get_height()/2)*scale*5
+	local position = vmath.vector3(delta_x,delta_y,0)
+	
+	go.set("/map/hero","position", position)
+	go.set("/map/hero#sprite","scale.x",scale*2.5)
+	go.set("/map/hero#sprite","scale.y",scale*2.5)
+	go.set("/map/hero","euler.z",player.angle * 57.2958)	
+end	
+    
+

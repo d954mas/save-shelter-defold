@@ -1,0 +1,246 @@
+images {
+  image: "/assets/img/enemies/enemy.png"
+}
+images {
+  image: "/assets/img/gui/inventory.png"
+}
+images {
+  image: "/assets/img/gui/player.png"
+}
+images {
+  image: "/assets/img/gui/sight.png"
+}
+images {
+  image: "/assets/img/items/objects/block.png"
+}
+images {
+  image: "/assets/img/items/objects/box.png"
+}
+images {
+  image: "/assets/img/items/objects/lamp.png"
+}
+images {
+  image: "/assets/img/items/objects/table.png"
+}
+images {
+  image: "/assets/img/items/pickups/ammo-pack.png"
+}
+images {
+  image: "/assets/img/items/pickups/medikit.png"
+}
+images {
+  image: "/assets/img/textures/unit_tex.png"
+}
+images {
+  image: "/assets/img/gui/heart.png"
+}
+images {
+  image: "/assets/img/gui/brain.png"
+}
+images {
+  image: "/assets/img/items/pickups/ammo-pack.png"
+}
+images {
+  image: "/assets/img/items/pickups/ammo.png"
+}
+images {
+  image: "/assets/img/items/weapons/knife/knife_1.png"
+}
+images {
+  image: "/assets/img/items/weapons/pistol/pistol_1.png"
+}
+images {
+  image: "/assets/img/empty.png"
+}
+images {
+  image: "/assets/img/items/weapons/ammo/nailgun_ammo.png"
+}
+images {
+  image: "/assets/img/items/weapons/ammo/pistol_ammo.png"
+}
+images {
+  image: "/assets/img/items/objects/block.png"
+}
+images {
+  image: "/assets/img/items/objects/bot_crystal.png"
+}
+images {
+  image: "/assets/img/items/objects/bot_crystal_2.png"
+}
+images {
+  image: "/assets/img/items/objects/lamp.png"
+}
+images {
+  image: "/assets/img/items/objects/mushroom_1.png"
+}
+images {
+  image: "/assets/img/items/objects/mushroom_2.png"
+}
+images {
+  image: "/assets/img/items/objects/skull.png"
+}
+images {
+  image: "/assets/img/items/objects/table.png"
+}
+images {
+  image: "/assets/img/items/objects/top_crystal_2.png"
+}
+images {
+  image: "/assets/img/items/objects/top_crystal_1.png"
+}
+images {
+  image: "/assets/img/textures/wall1.png"
+}
+images {
+  image: "/assets/img/textures/wall10.png"
+}
+images {
+  image: "/assets/img/textures/wall11.png"
+}
+images {
+  image: "/assets/img/textures/wall12.png"
+}
+images {
+  image: "/assets/img/textures/wall2.png"
+}
+images {
+  image: "/assets/img/textures/wall3.png"
+}
+images {
+  image: "/assets/img/textures/wall4.png"
+}
+images {
+  image: "/assets/img/textures/wall6.png"
+}
+images {
+  image: "/assets/img/textures/wall7.png"
+}
+images {
+  image: "/assets/img/textures/wall8.png"
+}
+images {
+  image: "/assets/img/textures/wall9.png"
+}
+images {
+  image: "/assets/img/items/objects/ball.png"
+}
+animations {
+  id: "knife_attack"
+  images {
+    image: "/assets/img/items/weapons/knife/knife_1.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/knife/knife_2.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/knife/knife_3.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/knife/knife_4.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/knife/knife_1.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "pistol_attack"
+  images {
+    image: "/assets/img/items/weapons/pistol/pistol_1.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/pistol/pistol_2.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/pistol/pistol_3.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/pistol/pistol_4.png"
+  }
+  images {
+    image: "/assets/img/items/weapons/pistol/pistol_1.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "wall5"
+  images {
+    image: "/assets/img/textures/wall5/wall5_1.png"
+  }
+  images {
+    image: "/assets/img/textures/wall5/wall5_2.png"
+  }
+  images {
+    image: "/assets/img/textures/wall5/wall5_3.png"
+  }
+  images {
+    image: "/assets/img/textures/wall5/wall5_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "frog_idle"
+  images {
+    image: "/assets/img/enemies/frog/frog-idle_1.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-idle_2.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "frog_walk"
+  images {
+    image: "/assets/img/enemies/frog/frog-walk_1.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-walk_2.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-walk_3.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-walk_4.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-walk_5.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-walk_6.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "frog_die"
+  images {
+    image: "/assets/img/enemies/frog/frog-die_1.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-die_2.png"
+  }
+  images {
+    image: "/assets/img/enemies/frog/frog-die_3.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

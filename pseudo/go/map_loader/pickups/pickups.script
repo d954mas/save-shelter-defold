@@ -1,0 +1,40 @@
+local pickups = require("pseudo.modules.models.pickups")
+local world = require ("pseudo.modules.world.world")
+local sounds = require ("pseudo.modules.models.sounds")
+local player=world.player
+local weapons = require("pseudo.modules.models.weapons")
+local hashes = require("lib.hashes")
+go.property("id",-1)
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("trigger_response")then
+		local item = pickups.MAP[self.id]
+		if(item.type==pickups.TYPES.medkit 
+			and player.need_heal()) then
+			player.controller:change_health(10)
+			local sound=sounds.medkit
+			msg.post(sound.url,HASHES.MSG_PLAY_SOUND,sound.fields)
+			go.delete()
+		elseif(item.type==pickups.TYPES.ammo 
+			and player.need_ammo(item.weapon_id)) then
+			player.controller:change_ammo(item.weapon_id,item.value)
+			local sound=sounds.add_bullet
+			msg.post(sound.url,HASHES.MSG_PLAY_SOUND,sound.fields)
+			go.delete()
+		elseif(item.type==pickups.TYPES.weapon) then
+			player.controller:pickup_weapon(item.data.id)
+			local sound=sounds.get_weapon
+			msg.post(sound.url,HASHES.MSG_PLAY_SOUND,sound.fields)
+			go.delete()	
+		elseif(item.type==pickups.TYPES.ball) then
+			--local sound=sounds.get_weapon
+			--msg.post(sound.url,HASHES.MSG_PLAY_SOUND,sound.fields)
+			msg.post("main:/router", "change_scene", {scene="win"})	
+			go.delete()	
+		end		
+    end
+end
+
+function update(self, dt)
+	go.set(".","euler.z",player.angle * 57.2958 + 180)
+end

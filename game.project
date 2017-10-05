@@ -1,0 +1,54 @@
+[project]
+title = Save shelter
+version = 1
+dependencies = https://github.com/d954mas/router/archive/master.zip
+custom_resources = assets/maps, assets/3d_sounds
+
+[bootstrap]
+main_collection = /main.collectionc
+render = /render/my.renderc
+
+[input]
+game_binding = /game.input_bindingc
+
+[display]
+width = 1280
+height = 720
+high_dpi = 1
+display_profiles = /render/my.display_profilesc
+variable_dt = 1
+
+[physics]
+scale = 1.0
+type = 3D
+debug = 0
+
+[script]
+shared_state = 1
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+max_debug_vertices = 10000
+
+[sprite]
+max_count = 3000
+
+[resource]
+max_resources = 2048
+
+[factory]
+max_count = 64
+
+[collection]
+max_instances = 2048
+
+[model]
+max_count = 0
+
+[rig]
+max_instance_count = 256
+
+[android]
+package = com.example.todo.test
+

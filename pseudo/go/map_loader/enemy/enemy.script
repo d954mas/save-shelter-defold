@@ -1,0 +1,118 @@
+local HASHES = require "lib.hashes"
+local sounds = require("pseudo.modules.models.sounds")
+local world = require("pseudo.modules.world.world")
+local groups={hash("wall"),hash("player")}
+local STATES = {idle=0,walk=1,attacking=2,hit=3,die=4}
+local enemy = require("pseudo.modules.models.enemies").frog
+local ATTACK_TIME=1.0
+local SPEED=2
+function init(self)
+	self.velocity=vmath.vector3(0)
+	self.position = go.get_position()
+	self.state = STATES.idle
+	self.attack_time=0.5
+end
+
+local function update_state(self)
+	if(self.state==STATES.idle)then
+		msg.post("#sprite",HASHES.MSG_PLAY_ANIMATION,{id=enemy.idle})
+	elseif(self.state==STATES.walk)then
+		msg.post("#sprite",HASHES.MSG_PLAY_ANIMATION,{id=enemy.walk})
+	elseif(self.state==STATES.die)then
+		msg.post("#sprite",HASHES.MSG_PLAY_ANIMATION,{id=enemy.die})
+	end	
+end	
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+end
+
+local function change_state(self,state)
+	if(self.state~=state)then
+		self.state=state
+		update_state(self)
+	end	
+end	
+
+function update(self, dt)
+	if(self.state==STATES.die)then return end
+	self.correction=vmath.vector3(0)
+	physics.ray_cast(self.position, world.player.pos, groups)
+	self.position=self.position - self.velocity * SPEED * dt
+	go.set_position(self.position)
+	if(self.state==STATES.attacking)then
+		self.attack_time=self.attack_time+dt
+		if(self.attack_time>ATTACK_TIME)then
+			change_state(self,STATES.hit)
+			self.attack_time=0
+		end	
+	elseif(vmath.length(self.velocity)~=0)then
+		change_state(self,STATES.walk)
+	else
+		change_state(self,STATES.idle)
+	end	
+	self.velocity=vmath.vector3(0)
+end
+
+local function handle_geometry(self,distance,normal)
+	if(vmath.length(normal * distance)<=0)then
+		return
+	end	
+	if distance > 0 then
+		local proj = vmath.project(self.correction, normal * distance)
+		if proj < 1 then
+			local comp = (distance - distance * proj) * normal
+			local comp_pos = go.get_position() + comp
+			go.set_position(comp_pos)
+			self.position.x = comp_pos.x
+			self.position.y = comp_pos.y
+			self.correction = self.correction + comp
+		end
+	end
+end
+
+
+function on_message(self, message_id, message, sender)
+	 if message_id == hash("ray_cast_response") then
+        if(message.group==hash("player"))then
+        	message.normal.z=0
+        	local distance=vmath.length(message.position-self.position)
+        	if(distance>0.2)then
+        		self.velocity=vmath.normalize(message.normal)
+        	end	
+        	if(distance<1 and self.state~=STATES.attacking and self.state~=STATES.hit)then
+        		change_state(self,STATES.attacking)
+        	end
+        	if(distance<0.5 and self.state==STATES.hit)then
+        		world.player.controller:change_health(-20)
+        		change_state(self,STATES.walking)
+        		msg.post("/sounds#enemy_attack",HASHES.MSG_PLAY_SOUND)
+        		self.attack_time=-0.5
+        	end
+		end
+		if(self.state==STATES.hit)then
+			self.attack_time=-0.5
+			change_state(self,STATES.walk)
+		end	
+    elseif message_id == HASHES.MSG_PHYSICS_CONTACT and message.group ~= HASHES.PHYSICS_GROUP_PICKUPS then
+		handle_geometry(self,message.distance,message.normal)
+	elseif message_id == hash("die") and self.state ~= STATES.die then
+		local sound=sounds.enemy_dead
+		msg.post(sound.url,HASHES.MSG_PLAY_SOUND,sound.fields)
+		msg.post("#collisionobject","disable")
+		change_state(self,STATES.die)
+	end	
+end
+
+
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end

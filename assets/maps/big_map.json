@@ -1,0 +1,255 @@
+{	
+   "player" : {
+		"position":{"x":4,"y":4}
+   },
+   "geometry": [ 
+		[{"texture":2,"block":true},{"texture":2,"block":true},{"texture":5,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":2,"block":true}],
+
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{"texture":3,"block":true},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{"texture":3,"block":true},{},
+		 {"texture":3,"block":true},{},{},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":2,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":2,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":2,"block":true},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{"texture":3,"block":true},{},
+		 {"texture":4,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		
+		
+		
+		
+		
+		[{"texture":1,"block":true},{},{},{},{},
+		 {"texture":3,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		
+		[{"texture":1,"block":true},{},{},{},{},
+		 {"texture":3,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":5,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true}],
+			
+		[{"texture":1,"block":true},{},{},{"texture":3,"block":true},{},
+		 {"texture":3,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		
+		[{"texture":1,"block":true},{},{},{"texture":3,"block":true},{},
+		 {"texture":4,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":2,"block":true}],
+		
+		[{"texture":1,"block":true},{},{},{"texture":3,"block":true},{},
+		 {"texture":4,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		
+		
+		
+		
+		
+		[{"texture":1,"block":true},{},{},{"texture":3,"block":true},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":5,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true}],
+			
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":2,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":5,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true}],
+		
+		
+		
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":3,"block":true},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+			
+		[{"texture":1,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{"texture":4,"block":true},{"texture":2,"block":true},{},{"texture":2,"block":true},
+		 {"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},
+		 {"texture":2,"block":true},{"texture":2,"block":true},{},{"texture":2,"block":true},{"texture":4,"block":true},
+		 {"texture":4,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		
+		[{"texture":1,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{"texture":4,"block":true},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {"texture":4,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{},{},{},{},
+		 {},{"texture":2,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{"texture":4,"block":true},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {"texture":4,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{},{},{},{},
+		 {},{"texture":2,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{"texture":4,"block":true},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {"texture":4,"block":true},{},{},{"texture":4,"block":true},{},
+		 {},{},{},{},{},
+		 {},{"texture":2,"block":true}],
+	
+	
+	
+		[{"texture":1,"block":true},{},{},{"texture":4,"block":true},{"texture":3,"block":true},
+		 {"texture":3,"block":true},{"texture":4,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},
+		 {"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},
+		 {"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},{"texture":2,"block":true},
+		 {"texture":4,"block":true},{"texture":3,"block":true},{"texture":3,"block":true},{"texture":4,"block":true},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		 
+		[{"texture":1,"block":true},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{},{},{},{},
+		 {},{"texture":1,"block":true}],
+		 
+		[{"texture":2,"block":true},{"texture":2,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},{"texture":1,"block":true},
+		 {"texture":1,"block":true},{"texture":2,"block":true}]
+	]
+
+	"objects": [
+		{"type":"lamp", "position":{"x":10.5,"y":7.5}},
+		{"type":"lamp", "position":{"x":15.5,"y":7.5}},
+		{"type":"lamp", "position":{"x":5.5,"y":22.5}},
+		{"type":"lamp", "position":{"x":12.5,"y":22.5}},
+		{"type":"lamp", "position":{"x":19.5,"y":22.5}},
+		{"type":"table", "position":{"x":10.5,"y":18.5}},
+		{"type":"table", "position":{"x":15.5,"y":18.5}},
+		{"type":"lamp", "position":{"x":8.5,"y":18.5}},
+		{"type":"lamp", "position":{"x":17.5,"y":18.5}},
+	]
+	
+	"pickups":[
+		{"type":"medkit", "position":{"x":14,"y":14}},
+		{"type":"medkit", "position":{"x":14.5,"y":14}}
+		{"type":"medkit", "position":{"x":15,"y":14}}
+		{"type":"medkit", "position":{"x":15.5,"y":14}}
+		{"type":"medkit", "position":{"x":16,"y":14}}
+		{"type":"medkit", "position":{"x":16.5,"y":14}}
+		{"type":"ammo", "position":{"x":14,"y":15}},
+		{"type":"ammo", "position":{"x":14.5,"y":15}}
+		{"type":"ammo", "position":{"x":15,"y":15}}
+		{"type":"ammo", "position":{"x":15.5,"y":15}}
+		{"type":"ammo", "position":{"x":16,"y":15}}
+		{"type":"ammo", "position":{"x":16.5,"y":15}}
+		{"type":"pistol", "position":{"x":16,"y":16}},
+		{"type":"blaster", "position":{"x":17,"y":16}},
+		{"type":"nailgun", "position":{"x":18,"y":16}},
+		{"type":"rapid_blaster", "position":{"x":19,"y":16}},
+		{"type":"rocket_launcher", "position":{"x":20,"y":16}},	
+	]
+	
+	"enemies":[
+		{"type":"enemy", "position":{"x":4,"y":9,"z":0}},
+		{"type":"enemy", "position":{"x":6,"y":9}},
+		{"type":"enemy", "position":{"x":12,"y":12}},
+		{"type":"enemy", "position":{"x":12,"y":13}},
+		{"type":"enemy", "position":{"x":13,"y":12}},
+		{"type":"enemy", "position":{"x":13,"y":13}},
+		{"type":"enemy", "position":{"x":14,"y":14}},
+		{"type":"enemy", "position":{"x":15,"y":14}},
+	]
+	}
+	
+	

@@ -1,0 +1,44 @@
+local world = require ("pseudo.modules.world.world")
+local objects = require("pseudo.modules.models.objects")
+local lights = {}
+local pos = vmath.vector3(0.5)
+local function spawn_obj(obj)
+	pos.x = obj.x - 0.5
+	pos.y = obj.y  - 0.5
+	local url = msg.url(factory.create("#factory"..obj.light.id,pos))
+	url.fragment = "sprite"
+	go.set(url,"scale",vmath.vector3(0.015625))
+	msg.post(url,HASHES.MSG_PLAY_ANIMATION,{id=obj.texture})
+	if(obj.light) then
+		sprite.set_constant(url,"light_color",obj.light.light)
+	end
+end	
+
+function on_message(self, message_id, message, sender)
+	if(message_id==HASHES.CONTROLLER_SPAWN_CEILS) then
+		for i,obj in ipairs(world.map.data.floors) do
+			if(obj.light==nil)then
+				  obj.light = {
+   				 light = vmath.vector4(0.25098040699959, 0.25098040699959, 0.25098040699959, 1),
+    				id = 39,
+ 				 }	
+			end	
+			if(not lights[obj.light.id])then 
+				lights[obj.light.id] = {}
+			end
+			table.insert(lights[obj.light.id],obj)
+		end
+		
+		for k,v in pairs(lights) do
+			for _,v2 in ipairs(v)do
+				spawn_obj(v2)
+			end	
+		end	
+		
+		
+		for i,obj in ipairs(world.map.data.floors) do
+		--	spawn_obj(obj)
+		end	
+	end
+	
+end

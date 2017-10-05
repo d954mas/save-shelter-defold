@@ -1,0 +1,104 @@
+math.randomseed(os.time())
+lock_mouse.lock_mouse()
+
+MsgReceiver = require "lib.msg_receiver"
+InputReceiver = require "lib.input_receiver"
+HASHES = require "lib.hashes"
+input =  require "lib.input"
+
+function init(self)
+--	msg.post("@system:", "toggle_profile")
+	
+	self.tile_pred = render.predicate({"tile"})
+	self.gui_pred = render.predicate({"gui"})
+	self.text_pred = render.predicate({"text"})
+	self.particle_pred = render.predicate({"particle"})
+	self.wall99_pred = render.predicate({"wall99"})
+	self.wall91_pred = render.predicate({"wall91"})
+	self.wall39_pred = render.predicate({"wall39"})
+	self.wall65_pred = render.predicate({"wall65"})
+	self.wall52_pred = render.predicate({"wall52"})
+	self.wall78_pred = render.predicate({"wall78"})
+	self.wall73_pred = render.predicate({"wall73"})
+	self.wall104_pred = render.predicate({"wall104"})
+	self.wall86_pred = render.predicate({"wall86"})
+	self.wall117_pred = render.predicate({"wall117"})
+	self.wall_pred = render.predicate({"wall"})
+	self.sprite_pred = render.predicate({"sprite"})
+	self.clear_color = vmath.vector4(0, 0, 0, 0)
+	self.clear_table = {[render.BUFFER_COLOR_BIT] = self.clear_color, [render.BUFFER_DEPTH_BIT] = 1, [render.BUFFER_STENCIL_BIT] = 0}
+
+	self.twod_projection = vmath.matrix4_orthographic(0, render.get_width(), 0, render.get_height(), -1, 1)
+	self.gui_projection = vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1)
+	self.empty_view = vmath.matrix4()
+	self.view = vmath.matrix4()
+	self.projection = vmath.matrix4_orthographic(0, render.get_width(), 0, render.get_height(), -1, 1)
+end
+
+function update(self)
+
+	render.set_depth_mask(true)
+	render.set_stencil_mask(0xff)
+	render.clear(self.clear_table)
+
+	render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
+	render.set_view(self.view)
+
+	render.disable_state(render.STATE_STENCIL_TEST)
+	render.enable_state(render.STATE_BLEND)
+	render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+
+
+	--draw 3d walls
+	render.enable_state(render.STATE_CULL_FACE)
+	render.enable_state(render.STATE_DEPTH_TEST)
+	-- render.disable_state(render.STATE_STENCIL_TEST)
+
+	render.set_projection(self.projection)
+    render.draw_debug3d()--draw physics
+	render.draw(self.wall99_pred)
+	render.draw(self.wall91_pred)
+	render.draw(self.wall39_pred)
+	render.draw(self.wall65_pred)
+	render.draw(self.wall52_pred)
+	render.draw(self.wall78_pred)
+	render.draw(self.wall73_pred)
+	render.draw(self.wall104_pred)
+	render.draw(self.wall86_pred)
+	render.draw(self.wall117_pred)
+	render.draw(self.wall_pred)
+	render.draw(self.sprite_pred)
+
+	render.disable_state(render.STATE_CULL_FACE)
+	render.disable_state(render.STATE_DEPTH_TEST)
+	render.set_depth_mask(false)
+
+  --draw sprites without camera
+	render.set_projection(self.twod_projection)
+	render.set_view(self.empty_view)
+	render.draw(self.tile_pred)
+	render.draw(self.particle_pred)
+	--render.draw_debug2d()
+	--render.draw_debug3d()--draw minimap
+
+	render.set_view(self.empty_view)
+	render.set_projection(self.gui_projection)
+	render.enable_state(render.STATE_STENCIL_TEST)
+	render.draw(self.gui_pred)
+	render.draw(self.text_pred)
+	render.disable_state(render.STATE_STENCIL_TEST)
+
+	render.set_depth_mask(false)
+	render.draw_debug2d()
+end
+
+function on_message(self, message_id, message)
+	if message_id == HASHES.MSG_RENDER_CLEAR_COLOR then
+		self.clear_color = message.color
+	elseif message_id == HASHES.MSG_RENDER_SET_VIEW_PROJECTION then
+		self.view = message.view
+		self.projection = message.projection
+	elseif(message_id == HASHES.MSG_RENDER_WINDOW_RESIZED) then
+		self.gui_projection = vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1)
+	end
+end

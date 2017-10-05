@@ -1,0 +1,12 @@
+images {
+  image: "/assets/intro/bomb.jpg"
+}
+images {
+  image: "/assets/intro/bunker.jpg"
+}
+images {
+  image: "/assets/intro/cave.jpg"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0
